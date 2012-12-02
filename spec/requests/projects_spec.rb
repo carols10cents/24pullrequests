@@ -18,5 +18,23 @@ describe 'Projects' do
       fill_in 'Main language', with: 'Ruby'
       click_on 'Submit Project'
     end
+
+    it 'consolidates duplicate projects into one with all descriptions' do
+      first_project  = create :project, description: "first sample description"
+      second_project = create :project, description: "second sample description"
+
+      # Skip validations to create data that was created before the
+      # unique github_url validation was added
+      second_project.update_attribute(:github_url, first_project.github_url)
+
+      visit projects_path
+
+      should have_content first_project.description
+      should have_content second_project.description
+
+      project_links = all(:xpath, "//a[@href = '#{first_project.github_url}']")
+      project_links.count.should == 1
+
+    end
   end
 end

@@ -1,8 +1,8 @@
 class ProjectsController < ApplicationController
   before_filter :ensure_logged_in, :except => [:index]
-  
+
   def index
-    @projects = Project.order(:name).all
+    @projects = Project.order(:name).all.group_by(&:github_url)
   end
 
   def new

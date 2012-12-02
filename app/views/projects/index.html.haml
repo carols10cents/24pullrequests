@@ -15,7 +15,8 @@
       = link_to language, '#', :data => {:language => parameterize_language(language)}
 %hr
 #projects
-  = render @projects
+  - @projects.values.each do |project_group_by_url|
+    = render partial: "project", locals: { project_group_by_url: project_group_by_url }
 
 #noprojects
   %p

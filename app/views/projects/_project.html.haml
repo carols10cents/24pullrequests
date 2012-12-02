@@ -1,3 +1,5 @@
+- project = project_group_by_url.first
+- descriptions = project_group_by_url.map(&:description).join(", ")
 .project{:class => parameterize_language(project.main_language), :data => {:id => project.id}}
   .title.clearfix
     %h4= project.name
@@ -6,4 +8,4 @@
     - else
       %span
         = project.github_url
-  = truncate project.description, :length => 200
+  = truncate descriptions, :length => 200
